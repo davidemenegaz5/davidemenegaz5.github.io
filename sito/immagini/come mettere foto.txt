@@ -1,0 +1,11 @@
+/sito-sdgrip/
+└── immagini/
+    ├── logo.png
+    ├── home1.jpg
+    ├── home2.jpg
+    ├── home3.jpg
+    ├── home4.jpg
+    ├── 1.jpg
+    ├── 2.jpg
+    ...
+    └── 20.jpg
