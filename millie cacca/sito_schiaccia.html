@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sito Stupido</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    html,body{height:100%;margin:0}
+    .centered{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column}
+    #mainBtn{appearance:none;border:none;padding:28px 40px;font-size:28px;border-radius:14px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+    .page{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+    /* Page 2 card */
+    .card{display:flex;flex-direction:column;align-items:center;gap:18px;padding:20px;border-radius:12px}
+    .photo-slot{width:320px;height:240px;border-radius:8px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(180deg,#f6f6f6,#e9e9e9);border:4px dashed rgba(0,0,0,.06)}
+    .photo-slot img{max-width:100%;max-height:100%;display:block}
+    .caption{font-weight:700;font-size:20px;letter-spacing:1px}
+    .small{font-size:13px;color:#666}
+    .ghost-note{display:none;font-size:13px;color:#999}
+    .back-btn{appearance:none;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+    /* subtle responsive */
+    @media (max-width:420px){#mainBtn{font-size:20px;padding:18px 26px}.photo-slot{width:240px;height:180px}}
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <main id="page1" class="page">
+    <div class="centered">
+      <button id="mainBtn">SCHIACCIA QUI</button>
+      <p class="small">(clicca il bottone per vedere la sorpresa)</p>
+    </div>
+  </main>
+
+  <!-- Page 2 (hidden at start) -->
+  <section id="page2" class="page" style="display:none;">
+    <div class="card">
+      <div class="photo-slot" title="Slot per la foto chiamata 'millie'">
+        <!-- Replace 'millie.jpg' with your image file in the same folder -->
+        <img id="millieImg" src="millie.jpg" alt="millie" onerror="this.style.opacity='.3';document.getElementById('placeholder').style.display='block'">
+        <div id="placeholder" class="ghost-note">Immagine non trovata: salva una foto chiamata <code>millie.jpg</code> nella stessa cartella</div>
+      </div>
+
+      <div class="caption">MILLIE CACCA</div>
+
+      <div style="display:flex;gap:8px">
+        <button id="back" class="back-btn">TORNA</button>
+        <button id="download" class="back-btn">SCARICA FOTO</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const mainBtn = document.getElementById('mainBtn');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const back = document.getElementById('back');
+    const download = document.getElementById('download');
+
+    mainBtn.addEventListener('click', ()=>{
+      page1.style.display = 'none';
+      page2.style.display = 'flex';
+      // optional: small animation
+      page2.animate([{opacity:0},{opacity:1}],{duration:260,easing:'ease-out'});
+    });
+
+    back.addEventListener('click', ()=>{
+      page2.style.display = 'none';
+      page1.style.display = 'flex';
+    });
+
+    download.addEventListener('click', ()=>{
+      const img = document.getElementById('millieImg');
+      const url = img.src;
+      if(!url || url.endsWith('millie.jpg')){
+        // if local file or missing, attempt to download using a hidden link
+        const a = document.createElement('a');
+        a.href = url || 'millie.jpg';
+        a.download = 'millie.jpg';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        // external url
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'millie.jpg';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    });
+  </script>
+</body>
+</html>
